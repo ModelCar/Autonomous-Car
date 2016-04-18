@@ -1,0 +1,30 @@
+Simon Rummert (rummert@in.tum.de)
+1) Study of the stereo camera, there would be always a capture time difference (several milliseconds) between the two eyes. the two images are not of the same scene, which is not good for the depth measure in Stereovision.  (should change the code from Opencv2.0 to Opencv3.0)
+
+    Here are two possible solutions:
+    * put two camera's capture into 2 Threads in different cores(parallel execution)
+    * Mirror and Prism Methods for 3d Macro Photography. http://www.lhup.edu/~dsimanek/3d/stereo/3dgallery16.htm
+
+
+
+Adnan Makhani (makhaniadnan@gmail.com)
+*2)  Traffic signs and lights detection is not good enough, there are a lot of wrong recognition. especially when the car goes fast or when the light is strong, there will be a lot of noise of the image. Try to find a better recognition algorithm.
+
+
+
+Yann Fabel (yann.fabel@tum.de)
+3) Find an Algorithm for driving following line.(line_detection)
+
+
+
+Fang Yuan(fang.yuan@tum.de) & Christoph Wüstner(c.wuestner@tum.de) & Alex(oleksii.moroz@tum.de)  
+4) Multi sensor information fusion: Try to converge the information of GPS, Stereo camera, camera, ultrasonic sensor to achieve obstacle avoidance algorithm
+
+5) GPS reading(FPGA), Find a way to store a open street map and an Algorithm for navigation.
+
+6) FPGA programming(Set PWM, Read GPS, Read Ultrasonic sensor)
+
+
+Lu Cheng(lu.cheng@tum.de)
+7)integration of an autonomous driving model car with Mixed-Criticality tasks hard-realtime Guarantee.
+
