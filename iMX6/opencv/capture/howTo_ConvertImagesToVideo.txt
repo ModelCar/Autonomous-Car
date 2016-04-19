@@ -1,0 +1,8 @@
+ffmpeg -i frame%d.jpg -vcodec h264 -crf 20 -framerate 30 -r 30 ../CarRec.avi
+
+example with adjusted framerate:
+ffmpeg -r 20 -i frame%d.jpg -vcodec h264 -crf 10 -r 30 ../CarRec08.avi
+
+
+example ho to cut out a part in good quality:
+ffmpeg -i CarRec09.avi -c:v h264 -crf 20 -preset slow -ss 7:35 -to 8:00 distance_objects_slow.avi

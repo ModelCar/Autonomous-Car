@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 2.8)
+project( Capture )
+find_package( OpenCV REQUIRED )
+add_definitions(-std=c++11)
+include_directories( ../videoinput)
+
+add_executable( Capture capture.cpp ../videoinput/Signs.cpp ../videoinput/TrafficLights.cpp ../videoinput/line_detection.cpp)
+#add_executable( Capture1 capture1.cpp ../videoinput/Signs.cpp ../videoinput/TrafficLights.cpp ../videoinput/line_detection.cpp)
+target_link_libraries( Capture ${OpenCV_LIBS} )
+#target_link_libraries( Capture1 ${OpenCV_LIBS} )
