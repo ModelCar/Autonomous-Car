@@ -32,6 +32,9 @@ Compiling a file with ## cmake ##
         Final compilation and execution in one line:
         > make && ./Executablename
 
+Opencv version: 3.1.0
+
+
 ## Good Habit ##
     1. Document your code
     2.Specify paths relative so they work for everyone,
