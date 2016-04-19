@@ -1,0 +1,40 @@
+Compiling ## opencv ## for your pc:
+  Get the code: http://sourceforge.net/projects/opencvlibrary/
+  Get the OpenCV Extra modules
+    > git clone --depth 1 https://github.com/Itseez/opencv_contrib.git
+  go into code directory
+  > mkdir release
+  > cd release
+  > apt-get install python3-dev cmake build-essential pkg-config python3-numpy libjpeg-dev libpng12-dev libtiff5-dev libjasper-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libtbb-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev x264 v4l-utils doxygen unzip libeigen3-dev libqt4-dev
+!!Be carefull to set the correct path to the cotrib modules in the next command. (-D OPENCV_EXTRA_MODULES_PATH=Your Path)
+  > cmake -Wno-dev -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_OPENGL=ON -D WITH_EIGEN=ON -D BUILD_DOCS=ON -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D WITH_QT=ON ..
+  > make
+  > make install                (as root)
+  You can instead use "checkinstall" to generate a package and allow clean uninstallation without the source directory
+  > ldconfig                    (as root)
+
+you can also compile the documentation.
+  go to doc directory
+  > make doxygen
+
+
+Compiling a file with ## cmake ##
+    Create an CMakeLists.txt file, just take a look at the others that are there
+    compiling your project:
+        (in the project directory)
+        > mkdir release
+        > cd release
+        > cmake ..
+        Above steps are only needed once.
+        Repeat the cmake execution if you change the CMakeLists.txt or if you install a missing library,
+        but remove the contents in the release directory before.
+
+        Final compilation and execution in one line:
+        > make && ./Executablename
+
+## Good Habit ##
+    1. Document your code
+    2.Specify paths relative so they work for everyone,
+        use forward dashes because they work on Windows and Linux.
+        Two dots refer to the directory above. Note that your code executes in the release directory if you use cmake.
+        ../imagefiles/source.jpg instead of C:\User\Documents\Stuff\...\myproject\imagefiles\source.jpg
