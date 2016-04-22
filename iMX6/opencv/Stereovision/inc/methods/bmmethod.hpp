@@ -12,8 +12,6 @@ public:
 	cv::Mat getDisparity(cv::Mat left, cv::Mat right);
 	void createParameterWindow(std::string,cv::Size position);
 	virtual ~BMMethod(){};
-private:
-	 cv::StereoBM sbm;
 };
 
 

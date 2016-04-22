@@ -17,7 +17,7 @@ public:
 	 */
 	MatchingMethod(bool show = true):
 		preFilterCap(25),
-		SADWindowSize(42),
+        blockSize(42),
 		minDisparity(0),
 		numberOfDisparities(50),
 		textureThreshold(10),
@@ -51,7 +51,7 @@ protected:
 	bool showParamWin;
 	/** DEPTH SUBSTRACTION METHODS PARAMETERS**/
 	int preFilterCap;
-	int SADWindowSize;
+    int blockSize;
 	int minDisparity;
 	int numberOfDisparities;
 	int textureThreshold;

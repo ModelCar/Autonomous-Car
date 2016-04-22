@@ -4,7 +4,7 @@ project(sv)
 # Find required packages
 FIND_PACKAGE(OpenCV REQUIRED)
 set(BOOST_ROOT "/usr/share/doc/:/usr/lib/x86_64-linux-gnu/")
-find_package(Boost REQUIRED system thread timer chrono)
+find_package(Boost REQUIRED system thread timer chrono filesystem)
 link_directories(${Boost_LIBRARY_DIR})
 
 # Add sources
@@ -18,5 +18,5 @@ ${OpenCV_LIBS}
 ${Boost_LIBRARIES}
 )
 
-set(CMAKE_CXX_FLAGS "-lboost_system")
+set(CMAKE_CXX_FLAGS "-lboost_system -lboost_filesystem")
 add_definitions(${CMAKE_CXX_FLAGS})

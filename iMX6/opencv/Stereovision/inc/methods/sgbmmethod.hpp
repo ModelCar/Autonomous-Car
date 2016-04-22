@@ -13,7 +13,6 @@ public:
 	void createParameterWindow(std::string,cv::Size position);
 	virtual ~SGBMMethod() {};
 private:
-	cv::StereoSGBM sgbm;
 	int fullDP;
 };
 
