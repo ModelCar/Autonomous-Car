@@ -1,3 +1,5 @@
+install commands for OpenCV and Boost:
+
 sudo apt-get update && sudo apt-get upgrade && sudo rpi-update
 
 sudo apt-get install build-essential
