@@ -11,7 +11,7 @@ public:
 	SGBMMethod(bool show = true);
 	cv::Mat getDisparity(cv::Mat left, cv::Mat right);
 	void createParameterWindow(std::string,cv::Size position);
-	virtual ~SGBMMethod() {};
+    virtual ~SGBMMethod() {}
 private:
 	int fullDP;
 };

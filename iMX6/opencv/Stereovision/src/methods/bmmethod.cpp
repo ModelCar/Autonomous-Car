@@ -15,12 +15,10 @@ cv::Mat BMMethod::getDisparity(cv::Mat left, cv::Mat right) {
 
 	Mat disp;
 
-    //TODO: wasn hier los?! sbm einfach als global gelöscht?!
     Ptr <StereoBM> sbm = StereoBM::create(0,0);
 
     sbm->setPreFilterCap(preFilterCap);
 
-    //TODO: not sure if block size is the new SADWindowSize
     sbm->setBlockSize(blockSize < 5 ? blockSize = 5
             : blockSize % 2 == 0 ? ++blockSize : blockSize);
     sbm->setMinDisparity(minDisparity);

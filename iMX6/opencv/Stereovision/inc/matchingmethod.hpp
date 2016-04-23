@@ -3,8 +3,6 @@
 
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
-//#include "opencv2/contrib/contrib.hpp"
-#include "opencv2/stereo.hpp"
 #include "opencv/cv.hpp"
 #include "opencv2/highgui/highgui.hpp"
 /**
@@ -25,7 +23,7 @@ public:
 		speckleWindowSize(37),
 		speckleRange(32),
 		disp12MaxDiff(1),
-		showParamWin(show){};
+        showParamWin(show){}
 	/**
 	 * Obtains depth map from camera stream images using algorithm specified by inheriting method
 	 * @param Mat - left frame
@@ -45,7 +43,7 @@ public:
 	/**
 	 * Class destructor
 	 */
-	virtual ~MatchingMethod() {};
+    virtual ~MatchingMethod() {}
 protected:
 
 	bool showParamWin;

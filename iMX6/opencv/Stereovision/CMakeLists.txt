@@ -17,6 +17,3 @@ TARGET_LINK_LIBRARIES(sv
 ${OpenCV_LIBS}
 ${Boost_LIBRARIES}
 )
-
-set(CMAKE_CXX_FLAGS "-lboost_system -lboost_filesystem")
-add_definitions(${CMAKE_CXX_FLAGS})
