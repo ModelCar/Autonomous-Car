@@ -5,7 +5,7 @@ Updates by Simon Rummert
 - This project was updated to OpenCV 3.1.0, please check if you have this version installed. Otherwise the project will not build.
 - See "linux install commands" for instructions on how to build and install all dependencies.
 
-- If you want to develop on osx with Xcode, use the build_Xcode.sh file for building the project. This will create a new build folder called build_Xcode, where the xcodeproj file will reside.
+- If you want to develop on OSX with Xcode, use the build_Xcode.sh file for building the project. This will create a new build folder called build_Xcode, where the xcodeproj file will reside.
 
 
 
