@@ -24,7 +24,7 @@ public:
 	/**
 	 * Class constructor
 	 */
-	CameraCalibrator(){};
+    CameraCalibrator(){}
 	/**
 	 * Gets calibration images from specified directory and executes calibration
 	 * @param string - path to calibration images directory
@@ -37,7 +37,7 @@ public:
 	 * Calibrates stereo camera using OpenCV, extract and saves intrinsics and extrinsics camera calibration parameters to files
 	 * @param vector<string> -vector of string containing path to calibration images
 	 */
-	void StereoCalib(const std::vector<cv::string>& imagelist);
+    void StereoCalib(const std::vector<std::string>& imagelist);
 	/**
 	 * Grab pathes to images from specified directory
 	 * @param string - path to directory with calibration images
@@ -46,7 +46,7 @@ public:
 	/**
 	 * Class destructor
 	 */
-	virtual ~CameraCalibrator(){};
+    virtual ~CameraCalibrator(){}
 private:
 	cv::Size boardSize;
 	std::string intrinsics;
