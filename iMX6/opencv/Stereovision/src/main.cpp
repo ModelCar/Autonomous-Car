@@ -40,8 +40,8 @@ StereoVision::StereoVision(const int m,const string in,const string ex) {
 void StereoVision::run() {
 
 	//Adjust index camera
-	leftcamera = 1;
-	rightcamera = 2;
+	leftcamera = 2;
+	rightcamera = 1;
 
 	VideoCapture capLeft = VideoCapture(leftcamera);
 	VideoCapture capRight = VideoCapture(rightcamera);
