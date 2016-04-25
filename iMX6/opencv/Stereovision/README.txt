@@ -7,6 +7,7 @@ Updates by Simon Rummert
 
 - If you want to develop on OSX with Xcode, use the build_Xcode.sh file for building the project. This will create a new build folder called build_Xcode, where the xcodeproj file will reside.
 
+- If you have OpenCV installed on a non standard folder (e.g. /home/YOU/Software/OpenCV) then you will have to tell cmake where your library is located. To do that, simply add -DOpenCV_DIR=<PATHTOYOUROPENCVDIR> to the cmake command in your build.sh file.
 
 
 By Laurie Marceau
