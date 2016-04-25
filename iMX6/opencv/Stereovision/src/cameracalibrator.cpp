@@ -30,7 +30,7 @@ vector<string> CameraCalibrator::getImagesFromDir(string filepath) {
 	return images;
 }
 
-void CameraCalibrator::StereoCalib(const vector<string>& imagelist) {
+void CameraCalibrator::StereoCalib(const std::vector<string> &imagelist) {
     if( imagelist.size() % 2 != 0 )
     {
         cout << "Error: the image list contains odd (non-even) number of elements\n";
@@ -143,16 +143,17 @@ void CameraCalibrator::StereoCalib(const vector<string>& imagelist) {
     cameraMatrix[1] = Mat::eye(3, 3, CV_64F);
     Mat R, T, E, F;
 
-    double rms = stereoCalibrate(objectPoints, imagePoints[0], imagePoints[1],
-                    cameraMatrix[0], distCoeffs[0],
-                    cameraMatrix[1], distCoeffs[1],
-                    imageSize, R, T, E, F,
-                    TermCriteria(CV_TERMCRIT_ITER+CV_TERMCRIT_EPS, 100, 1e-5),
-                    CV_CALIB_FIX_ASPECT_RATIO +
-                    CV_CALIB_ZERO_TANGENT_DIST +
-                    CV_CALIB_SAME_FOCAL_LENGTH +
-                    CV_CALIB_RATIONAL_MODEL +
-                    CV_CALIB_FIX_K3 + CV_CALIB_FIX_K4 + CV_CALIB_FIX_K5);
+    double rms = stereoCalibrate(objectPoints,imagePoints[0], imagePoints[1],
+            cameraMatrix[0], distCoeffs[0],
+            cameraMatrix[1], distCoeffs[1],
+            imageSize,R,T,E,F,
+            CV_CALIB_FIX_ASPECT_RATIO +
+            CV_CALIB_ZERO_TANGENT_DIST +
+            CV_CALIB_SAME_FOCAL_LENGTH +
+            CV_CALIB_RATIONAL_MODEL +
+            CV_CALIB_FIX_K3 + CV_CALIB_FIX_K4 + CV_CALIB_FIX_K5,
+            TermCriteria(CV_TERMCRIT_ITER+CV_TERMCRIT_EPS, 100, 1e-5));
+
     cout << "done with RMS error=" << rms << endl;
 
     // CALIBRATION QUALITY CHECK
@@ -210,12 +211,12 @@ void CameraCalibrator::StereoCalib(const vector<string>& imagelist) {
         cout << "Error: can not save the extrinsics parameters\n";
 }
 
-void CameraCalibrator::calibrate(String calibImagesPath, String in, String ex, Size boardS) {
+void CameraCalibrator::calibrate(string calibImagesPath, string in, string ex, Size boardS) {
 	boardSize = boardS;
 	intrinsics = in;
 	extrinsics = ex;
 
-	vector<string> images = getImagesFromDir(calibImagesPath);
+    vector<string> images = getImagesFromDir(calibImagesPath);
 
 	StereoCalib(images);
 
