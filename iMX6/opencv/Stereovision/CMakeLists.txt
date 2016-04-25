@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 project(sv)
 
 # Find required packages
-FIND_PACKAGE(OpenCV REQUIRED)
+FIND_PACKAGE(OpenCV 3.1.0 EXACT REQUIRED)
 set(BOOST_ROOT "/usr/share/doc/:/usr/lib/x86_64-linux-gnu/")
 find_package(Boost REQUIRED system thread timer chrono filesystem)
 link_directories(${Boost_LIBRARY_DIR})
