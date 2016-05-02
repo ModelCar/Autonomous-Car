@@ -2,11 +2,11 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>16.3.2016 15:44:25</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1458139465066</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>D:\Projects\Quartus\software\Autonomous_Car_OS_bsp</BspGeneratedLocation>
-        <BspSettingsFile>.\settings.bsp</BspSettingsFile>
-        <SopcDesignFile>..\..\NIOS_Sys.sopcinfo</SopcDesignFile>
+        <BspGeneratedTimeStamp>May 2, 2016 1:59:23 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1462190363485</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>/home/christoph/sync/Uni/Lab/git/Autonomous-Car/FPGA/Autonomous_Car_OS_bsp</BspGeneratedLocation>
+        <BspSettingsFile>settings.bsp</BspSettingsFile>
+        <SopcDesignFile>../board_images/NIOS_Sys.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_qsys_0</Cpu>
         <SchemaVersion>1.9</SchemaVersion>

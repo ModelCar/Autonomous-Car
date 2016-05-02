@@ -161,8 +161,8 @@ int main(void)
 			  0x0,
 			  0x0);
 
-	printf("Hello!");
-	uart_send_string("Hello!");
+	printf("Hello on Console!");
+	uart_send_string("Hello over uart!");
 
 	OSTaskCreateExt(task1,
                   NULL,

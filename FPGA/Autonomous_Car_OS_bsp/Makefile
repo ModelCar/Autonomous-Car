@@ -101,7 +101,7 @@ ACDS_VERSION := 15.1
 # BUILD_NUMBER: 185
 
 SETTINGS_FILE := settings.bsp
-SOPC_FILE := ../../NIOS_Sys.sopcinfo
+SOPC_FILE := ../board_images/NIOS_Sys.sopcinfo
 
 #-------------------------------------------------------------------------------
 #                             TOOL & COMMAND DEFINITIONS

@@ -5,7 +5,7 @@
 BSP_TYPE=ucosii
 BSP_DIR=.
 SOPC_DIR=../../
-SOPC_FILE=../../NIOS_Sys.sopcinfo
+SOPC_FILE=../board_images/NIOS_Sys.sopcinfo
 NIOS2_BSP_ARGS=""
 CPU_NAME=
 

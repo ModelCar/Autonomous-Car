@@ -2,9 +2,9 @@
  * system.h - SOPC Builder system and BSP software package information
  *
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'NIOS_Sys'
- * SOPC Builder design path: ../../NIOS_Sys.sopcinfo
+ * SOPC Builder design path: ../board_images/NIOS_Sys.sopcinfo
  *
- * Generated: Wed Mar 16 15:44:26 CET 2016
+ * Generated: Mon May 02 13:59:24 CEST 2016
  */
 
 /*
@@ -220,7 +220,7 @@
 
 #define ALT_MODULE_CLASS_New_UltraSound3 altera_avalon_uart
 #define NEW_ULTRASOUND3_BASE 0x200a1c0
-#define NEW_ULTRASOUND3_BAUD 115200
+#define NEW_ULTRASOUND3_BAUD 9600
 #define NEW_ULTRASOUND3_DATA_BITS 8
 #define NEW_ULTRASOUND3_FIXED_BAUD 1
 #define NEW_ULTRASOUND3_FREQ 50000000
