@@ -15,6 +15,14 @@ DepthSubstraction::DepthSubstraction(int m, bool t) {
 	methodNr = -1;
 	setMethod(m);
 	methodNr = m;
+    pixel_width = 640; //320 * 2 pixels
+    pixel_height = 480; //240 * 2 pixels
+    view_top = 160; //where the pixel analysis of the depth map begins
+    view_bottom = 360; //where the pixel analysis of the depth map ends
+    white = 255; //in grayscale CV_8UC1
+    black = 0; //in grayscale CV_8UC1
+    windowSize = 20;
+    sum = 0;
 }
 
 void DepthSubstraction::extractCalibrationParams(string in, string ex) {
@@ -81,7 +89,6 @@ Mat DepthSubstraction::getDepthMap(Mat left, Mat right, int newMethod) {
 	depth_map = method->getDisparity(left, right);
 
 	return depth_map;
-
 }
 
 Mat DepthSubstraction::getTopView(Mat depth_map) {

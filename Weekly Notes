@@ -1,0 +1,11 @@
+Week 02.05.2016 -- 08.05.2016 
+
+Oleksii (Alex) Moroz
+
+	New Progress:
+	1) Analized different route planners, Project OSRM was chosen. (https://github.com/Project-OSRM)
+	2) Tested route planning on Geofabrik maps. (http://download.geofabrik.de/)
+
+	Problems: Not enough documentation for OSRM C++ API. Not clear how to add new coordinates without rebuilding the route and how to get array of turns in the route.
+
+	Next steps: The OSRM seems to have the best open source C++ roupte planning api, I will stick with it. After solving the problems with C++ API, next step will be to get coordinates directly from GPS sensor.

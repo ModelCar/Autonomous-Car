@@ -6,7 +6,6 @@
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
-#include "opencv2/gpu/gpu.hpp"
 #include "opencv2/highgui/highgui.hpp"
 
 #include "depthsubstraction.hpp"
@@ -35,7 +34,7 @@ public:
 	/**
 	 * Class destructor
 	 */
-	~StereoVision(){};
+    ~StereoVision(){}
 
 private:
 	void showImages();

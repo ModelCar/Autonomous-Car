@@ -14,19 +14,28 @@ cv::Mat BMMethod::getDisparity(cv::Mat left, cv::Mat right) {
 	}
 
 	Mat disp;
-	sbm.state->preFilterCap = preFilterCap;
-	sbm.state->SADWindowSize = SADWindowSize < 5 ? SADWindowSize = 5
-			: SADWindowSize % 2 == 0 ? ++SADWindowSize : SADWindowSize;
-	sbm.state->minDisparity = minDisparity;
-	sbm.state->numberOfDisparities = numberOfDisparities < 16 ? 16
-			: numberOfDisparities % 16 == 0 ? numberOfDisparities : numberOfDisparities
-					&= -16;
-	sbm.state->textureThreshold = textureThreshold;
-	sbm.state->uniquenessRatio = uniquenessRatio;
-	sbm.state->speckleWindowSize = speckleWindowSize;
-	sbm.state->speckleRange = speckleRange;
-	sbm.state->disp12MaxDiff = disp12MaxDiff;
-	sbm(left, right, disp);
+
+    Ptr <StereoBM> sbm = StereoBM::create(0,0);
+
+    sbm->setPreFilterCap(preFilterCap);
+
+    sbm->setBlockSize(blockSize < 5 ? blockSize = 5
+            : blockSize % 2 == 0 ? ++blockSize : blockSize);
+    sbm->setMinDisparity(minDisparity);
+    sbm->setNumDisparities(numberOfDisparities < 16 ? 16
+                         : numberOfDisparities % 16 == 0 ? numberOfDisparities
+                         : numberOfDisparities &= -16);
+    sbm->setTextureThreshold(textureThreshold);
+
+    sbm->setUniquenessRatio(uniquenessRatio);
+
+    sbm->setSpeckleWindowSize(speckleWindowSize);
+    sbm->setSpeckleRange(speckleRange);
+
+    sbm->setDisp12MaxDiff(disp12MaxDiff);
+
+    sbm->compute(left,right,disp);
+
 	disp.convertTo(disp, CV_8U, 255 / (numberOfDisparities * 16.));
 
 	return disp;
@@ -38,7 +47,7 @@ void BMMethod::createParameterWindow(string name,Size position) {
 	namedWindow(name,CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
 	moveWindow(name,position.width,position.height);
 	createTrackbar("preFilterCap", name, &preFilterCap, 63);
-	createTrackbar("SADWindowSize", name, &SADWindowSize, 254);
+    createTrackbar("blockSize", name, &blockSize, 254);
 	createTrackbar("minDisparity", name, &minDisparity, 30);
 	createTrackbar("numberOfDisparities", name, &numberOfDisparities, 200);
 	createTrackbar("textureThreshold", name, &textureThreshold, 50);

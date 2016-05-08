@@ -54,7 +54,7 @@ public:
 	/**
 	 * Class destructor
 	 */
-	virtual ~DepthSubstraction(){};
+    virtual ~DepthSubstraction(){}
 
 	/** number of current disparity method, controlled by trackbar in StereoVision class **/
 	int methodNr;
@@ -66,14 +66,14 @@ public:
 	double saved_value;
 	double intensity_average[640];
 	double intensity_smooth[640];
-	int pixel_width = 640; //320 * 2 pixels
-	int pixel_height = 480; //240 * 2 pixels
-	int view_top = 160; //where the pixel analysis of the depth map begins
-	int view_bottom = 360; //where the pixel analysis of the depth map ends
-	int white = 255; //in grayscale CV_8UC1
-	int black = 0; //in grayscale CV_8UC1
-	int windowSize = 20;
-	double sum = 0;
+    int pixel_width; //320 * 2 pixels
+    int pixel_height; //240 * 2 pixels
+    int view_top; //where the pixel analysis of the depth map begins
+    int view_bottom; //where the pixel analysis of the depth map ends
+    int white; //in grayscale CV_8UC1
+    int black; //in grayscale CV_8UC1
+    int windowSize;
+    double sum;
 
 	/** RECTIFY AND CALIBRATION PARAMETERS**/
 	cv::Rect roi1, roi2;
