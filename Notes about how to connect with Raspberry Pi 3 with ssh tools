@@ -1,0 +1,14 @@
+We now have one HDMI to VGA converter, when have problem, connect the Raspberry to a screen and debug.
+
+1. Connect the wifi AP of Raspberry "RoRaspi", with password "abcdefghijklm"
+
+2. Use SSH tools to connect
+	   Username: pi  
+	   Hostname: 10.42.0.254 
+	   Port: 22
+	   password:raspberry
+	   
+	   
+Attention: before you shut down the system, use "sudo halt" or "sudo shutdown -h now" then cut off the power.
+	   
+	   
