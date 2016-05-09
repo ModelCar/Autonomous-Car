@@ -49,8 +49,8 @@ private:
 	cv::Mat depth_map;
 	cv::Size image_size;
 
-	CameraCalibrator cl;
-	DepthSubstraction ds;
+	CameraCalibrator camCalibrator;
+	DepthSubstraction depthSubstraction;
 };
 
 #endif /* MAIN_HPP_ */

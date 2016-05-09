@@ -11,11 +11,11 @@ StereoVision::StereoVision(const int m,const string in,const string ex) {
 
 	//calibration of cameras if there is need
 	if (mode == 1) {
-		cl.calibrate(calibImagesPath,INTRINSICS,EXTRINSICS);
+		camCalibrator.calibrate(calibImagesPath,INTRINSICS,EXTRINSICS);
 	}
 
 	//get camera calibration parameters
-	ds.extractCalibrationParams(in,ex);
+	depthSubstraction.extractCalibrationParams(in,ex);
 
 	//images showing settings
 	image_size = Size(320,240);
@@ -32,7 +32,7 @@ StereoVision::StereoVision(const int m,const string in,const string ex) {
 	cvMoveWindow("left",0,image_size.height);
 	cvNamedWindow("right",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
 	cvMoveWindow("right",image_size.width,image_size.height);
-	createTrackbar("method", "disparity", &methodNr, ds.methodCount-1);
+	createTrackbar("method", "disparity", &methodNr, depthSubstraction.methodCount-1);
 	cvNamedWindow("top_view",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
 	cvMoveWindow("top_view",image_size.width,0);
 }
@@ -61,10 +61,10 @@ void StereoVision::run() {
 			;
 			if (capRight.retrieve(right_frame,1)){
 				//get depth map
-				depth_map = ds.getDepthMap(left_frame,right_frame, methodNr);
+				depth_map = depthSubstraction.getDepthMap(left_frame,right_frame, methodNr);
 
 				//get top view
-				top_view = ds.getTopView(depth_map);
+				top_view = depthSubstraction.getTopView(depth_map);
 
 				//show images
 				showImages();
@@ -96,17 +96,17 @@ void StereoVision::showImages(){
 
 int main(int argc, char *argv[]) {
 
-	StereoVision* sv;
+	StereoVision* stereoVision;
 
 	if  (argc == 3) {
-		sv = new StereoVision(atoi(argv[1]), argv[2]);
+		stereoVision = new StereoVision(atoi(argv[1]), argv[2]);
 	} else if (argc == 2) {
-		sv = new StereoVision(atoi(argv[1]));
+		stereoVision = new StereoVision(atoi(argv[1]));
 	} else {
-		sv = new StereoVision();
+		stereoVision = new StereoVision();
 	}
 
-	sv->run();
+	stereoVision->run();
 
 	return 0;
 }
