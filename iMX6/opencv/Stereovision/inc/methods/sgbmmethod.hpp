@@ -13,7 +13,7 @@ public:
 	void createParameterWindow(std::string,cv::Size position);
     virtual ~SGBMMethod() {}
 private:
-	int fullDP;
+	int mode;
 };
 
 #endif /* SGBMMETHOD_HPP_ */

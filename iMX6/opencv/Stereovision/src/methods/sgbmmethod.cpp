@@ -3,7 +3,7 @@
 using namespace std;
 using namespace cv;
 
-SGBMMethod::SGBMMethod(bool show):MatchingMethod(show),fullDP(0){
+SGBMMethod::SGBMMethod(bool show):MatchingMethod(show),mode(0){
 	if (show)
 		createParameterWindow("parameters",Size(640,0));
 };
@@ -16,28 +16,23 @@ Mat SGBMMethod::getDisparity(Mat left, Mat right) {
 
     Mat disp;
 
-    cv::Ptr<cv::StereoSGBM> sgbm /*= StereoSGBM::create()*/;
+    int sgbmBlockSize = blockSize < 5 ? blockSize = 5 :
+                        blockSize % 2 == 0 ? ++blockSize : blockSize;
+
+    int numDisparities = numberOfDisparities < 16 ? 16 :
+                         numberOfDisparities % 16 == 0 ?
+                         numberOfDisparities : numberOfDisparities &= -16;
+
+    cv::Ptr<cv::StereoSGBM> sgbm = StereoSGBM::create(minDisparity,numDisparities,sgbmBlockSize);
 
     sgbm->setP1(8 * left.channels() * sgbm->getBlockSize() * sgbm->getBlockSize());
     sgbm->setP2(32 * left.channels() * sgbm->getBlockSize() * sgbm->getBlockSize());
-
     sgbm->setMinDisparity(minDisparity);
-
-    sgbm->setBlockSize(blockSize < 5 ? blockSize = 5 :
-            blockSize % 2 == 0 ? ++blockSize : blockSize);
-
-    sgbm->setNumDisparities(numberOfDisparities < 16 ? 16 :
-                            numberOfDisparities % 16 == 0 ?
-                            numberOfDisparities : numberOfDisparities &= -16);
-
     sgbm->setUniquenessRatio(uniquenessRatio);
     sgbm->setSpeckleWindowSize(speckleWindowSize);
     sgbm->setSpeckleRange(speckleRange);
     sgbm->setDisp12MaxDiff(disp12MaxDiff);
-
-    //TODO: mode is different from fullDP parameter, need to adjust it accordingly
-    //MODE_HH seems to be the fullDP pendant
-    sgbm->setMode(StereoSGBM::MODE_HH);
+    sgbm->setMode(mode);
 
     sgbm->compute(left,right,disp);
 
@@ -61,5 +56,5 @@ void SGBMMethod::createParameterWindow(string name,Size position) {
 	createTrackbar("speckleWindowSize", name, &speckleWindowSize, 200);
 	createTrackbar("speckleRange", name, &speckleRange, 50);
 	createTrackbar("disp12MaxDiff", name, &disp12MaxDiff, 50);
-    createTrackbar("fullDP", name, &fullDP, 1);
+    createTrackbar("mode", name, &mode, 2);
 }
