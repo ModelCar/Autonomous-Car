@@ -22,7 +22,7 @@ cv::Mat BMMethod::getDisparity(cv::Mat left, cv::Mat right) {
 								   : blockSize % 2 == 0 ? ++blockSize : blockSize;
     Ptr <StereoBM> sbm = StereoBM::create(numDisparities,bmBlockSize);
 
-    sbm->setPreFilterCap(preFilterCap);
+    sbm->setPreFilterCap(preFilterCap< 1 ? 1 : preFilterCap);
     sbm->setMinDisparity(minDisparity);
     sbm->setTextureThreshold(textureThreshold);
     sbm->setUniquenessRatio(uniquenessRatio);
