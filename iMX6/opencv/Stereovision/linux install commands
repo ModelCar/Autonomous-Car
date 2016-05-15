@@ -25,5 +25,5 @@ cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local \
 
  sudo make install && sudo ldconfig
 
- sudo apt-get install libboost-system-dev libboost-thread-dev libboost-timer-dev libboost-chrono-dev
+ sudo apt-get install libboost-system-dev libboost-thread-dev libboost-timer-dev libboost-chrono-dev libboost-filesystem-dev
  
