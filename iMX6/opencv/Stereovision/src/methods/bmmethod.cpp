@@ -15,23 +15,19 @@ cv::Mat BMMethod::getDisparity(cv::Mat left, cv::Mat right) {
 
 	Mat disp;
 
-    Ptr <StereoBM> sbm = StereoBM::create(0,0);
+	int numDisparities = numberOfDisparities < 16 ? 16 :
+						 numberOfDisparities % 16 == 0 ?
+						 numberOfDisparities : numberOfDisparities &= -16;
+	int bmBlockSize = blockSize < 5 ? blockSize = 5
+								   : blockSize % 2 == 0 ? ++blockSize : blockSize;
+    Ptr <StereoBM> sbm = StereoBM::create(numDisparities,bmBlockSize);
 
-    sbm->setPreFilterCap(preFilterCap);
-
-    sbm->setBlockSize(blockSize < 5 ? blockSize = 5
-            : blockSize % 2 == 0 ? ++blockSize : blockSize);
+    sbm->setPreFilterCap(preFilterCap< 1 ? 1 : preFilterCap);
     sbm->setMinDisparity(minDisparity);
-    sbm->setNumDisparities(numberOfDisparities < 16 ? 16
-                         : numberOfDisparities % 16 == 0 ? numberOfDisparities
-                         : numberOfDisparities &= -16);
     sbm->setTextureThreshold(textureThreshold);
-
     sbm->setUniquenessRatio(uniquenessRatio);
-
     sbm->setSpeckleWindowSize(speckleWindowSize);
     sbm->setSpeckleRange(speckleRange);
-
     sbm->setDisp12MaxDiff(disp12MaxDiff);
 
     sbm->compute(left,right,disp);

@@ -222,3 +222,52 @@ void CameraCalibrator::calibrate(string calibImagesPath, string in, string ex, S
 
 	cout << "Calibration finished..." << endl;
 }
+
+void CameraCalibrator::createNewCalibrationImages(string filepath, int camIndex1, int camIndex2) {
+
+    Size image_size = Size(320,240);
+    Mat leftFrame, rightFrame, leftResized, rightResized;
+    VideoCapture capLeft, capRight;
+    int imageID = 1;
+    if(!capLeft.open(camIndex1) || !capRight.open(camIndex2)) {
+        cout << "could not open camera stream!" << endl;
+        exit(1);
+    }
+
+    for(;;) {
+        if (!capLeft.read(leftFrame) || !capRight.read(rightFrame)) {
+            cout << "could not read frames!!" << endl;
+            exit(1);
+        }
+
+        resize(leftFrame, leftResized, image_size);
+        resize(rightFrame, rightResized, image_size);
+
+        imshow("left", leftResized);
+        imshow("right", rightResized);
+
+        if(waitKey(30) >= 0) {
+            cout << "taking photo!" << endl;
+            path p(filepath);
+
+            if(is_directory(p)) {
+                String imageIDString;
+                if(imageID / 10 == 0) {
+                    imageIDString = "0"+to_string(imageID);
+                } else {
+                    imageIDString = to_string(imageID);
+                }
+
+                imwrite(p.string()+imageIDString+"_l.bmp", leftFrame);
+                imwrite(p.string()+imageIDString+"_r.bmp", rightFrame);
+                imageID++;
+                if(imageID > 99) {
+                    break;
+                }
+            }
+            else {
+                cout << "Path '" + filepath + "' is not a directory!" << endl;
+            }
+        }
+    }
+}

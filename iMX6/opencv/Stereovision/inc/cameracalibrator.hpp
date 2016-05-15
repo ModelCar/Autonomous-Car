@@ -43,6 +43,11 @@ public:
 	 * @param string - path to directory with calibration images
 	 */
 	std::vector<std::string> getImagesFromDir(std::string filepath);
+
+	/**
+	 *
+	 */
+	void createNewCalibrationImages(std::string filepath, int camIndex1, int camIndex2);
 	/**
 	 * Class destructor
 	 */

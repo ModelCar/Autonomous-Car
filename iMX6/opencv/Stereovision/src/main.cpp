@@ -13,6 +13,12 @@ StereoVision::StereoVision(const int m,const string in,const string ex) {
 	if (mode == 1) {
 		camCalibrator.calibrate(calibImagesPath,INTRINSICS,EXTRINSICS);
 	}
+	else if (mode == 2) {
+        //TODO: integrate new images to calibration like in mode 1
+		camCalibrator.createNewCalibrationImages("../test/",1,2);
+        //For now just return
+        return;
+	}
 
 	//get camera calibration parameters
 	depthSubstraction.extractCalibrationParams(in,ex);
@@ -58,7 +64,7 @@ void StereoVision::run() {
 		}
 
 		if (capLeft.retrieve(left_frame,0)){
-			;
+
 			if (capRight.retrieve(right_frame,1)){
 				//get depth map
 				depth_map = depthSubstraction.getDepthMap(left_frame,right_frame, methodNr);
