@@ -8,74 +8,76 @@
 
 #include <thread>
 #include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <iostream>
 using namespace cv;
 using namespace std;
 #include "Tentacles.hpp"
 
 struct S_checkpoint{
-	Point checkpoints[Checkpoints_Per_Tentacle_Step];
-	int x;
-	int y;
+	vector<Point> checkpoints;
+	int x_coord;
+	int y_coord;
 };
 
 struct S_Tentacle{
-  S_checkpoint coordinate[Tentacle_Resolution];
+  vector<S_checkpoint> coordinates;
 	int crashsegment;
 	int crashdistance;
 };
 
-S_Tentacle tentacle[Tentacles_Per_Side*2+1];
-
-void generateTentacles(double speed){
-	speed=speed*10/Tentacle_Resolution;
+vector<S_Tentacle> Tentacles::generateTentacles(double speed) {
+	vector<S_Tentacle> tentacles;
+	speed=speed*10.0/tentacleResolution;
 	
-	for (int steering=-Tentacles_Per_Side; steering<=Tentacles_Per_Side;steering++){
-		const int tentacleid=steering+Tentacles_Per_Side;
-		double targetsteering=steering*Steering_Max_Angle/Tentacles_Per_Side;
+	for (int steering=-tentaclesPerSide; steering<=tentaclesPerSide;steering++){
+		double targetsteering=steering*maxSteeringAngle/tentaclesPerSide;
 		double heading=0;
 		double cursteering=0;
-		double x=Tentacle_Input_Image_Width/2;
-		double y=Tentacle_Input_Image_Height-1;
-	
-		tentacle[tentacleid].coordinate[0].x=x;
-		tentacle[tentacleid].coordinate[0].y=y;
+		double x=inputImageWidth/2;
+		double y=inputImageHeight-1;
+		S_Tentacle tentacle;
+        S_checkpoint firstCoord;
+        firstCoord.x_coord = x;
+        firstCoord.y_coord = y;
+		tentacle.coordinates.push_back(firstCoord);
 		
-		for (int t=1; t<Tentacle_Resolution;t++){
+		for (int t=1; t<tentacleResolution;t++){
 			double diff=targetsteering-cursteering;
-			if (diff>Max_Steering_Change/Tentacle_Resolution)
-				diff=Max_Steering_Change/Tentacle_Resolution;
-			if (diff<-Max_Steering_Change/Tentacle_Resolution)
-				diff=-Max_Steering_Change/Tentacle_Resolution;
+			if (diff > maxSteeringChange/double(tentacleResolution))
+				diff = maxSteeringChange/double(tentacleResolution);
+			if (diff < -maxSteeringChange/double(tentacleResolution))
+				diff = -maxSteeringChange/double(tentacleResolution);
 			cursteering=cursteering+diff;
-			heading=heading+cursteering/Tentacle_Resolution*Steering_Amplifier;
+			heading=heading+cursteering/tentacleResolution*steeringAmplifier;
 			const double heading_rad=heading* CV_PI/180;
 			
 			double part_x=sin(heading_rad);
 			double part_y=cos(heading_rad);
 			y=y-speed*cos(heading_rad);
 			x=x+speed*sin(heading_rad);
-			
-			 tentacle[tentacleid].coordinate[t].x=x;
-			 tentacle[tentacleid].coordinate[t].y=y;
+
+            S_checkpoint coordinate;
+            coordinate.x_coord = x;
+            coordinate.y_coord = y;
 			 
-			 int checkhalf=Checkpoints_Per_Tentacle_Step/2;
+			 int checkhalf=checkpointsPerTentacleStep/2;
 			 double swp=part_x;
 			 part_x=part_y;
 			 part_y=swp;
-			 for (int checkpoint=0; checkpoint<Checkpoints_Per_Tentacle_Step; checkpoint++){
-				double factor=(checkpoint-checkhalf)/checkhalf*Vehicle_Width/2;
-				tentacle[tentacleid].coordinate[t].checkpoints[checkpoint].x = x-part_x*factor;
-				tentacle[tentacleid].coordinate[t].checkpoints[checkpoint].y = y-part_y*factor;
+			 for (int checkpoint=0; checkpoint<checkpointsPerTentacleStep; checkpoint++){
+				double factor=(checkpoint-checkhalf)/checkhalf*vehicleWidth/2;
+                 Point p(x-part_x*factor, y-part_y*factor);
+                 coordinate.checkpoints.push_back(p);
 			 }
+            tentacle.coordinates.push_back(coordinate);
 		}
+		tentacles.push_back(tentacle);
 	}
+	return tentacles;
 }
 
-void checkTentacles(Mat obstacles, Point target){
-	
+void Tentacles::checkTentacles(Mat obstacles, Point target){
+	//TODO: check plain input image (Mat obstacles) with a point from checkpoints in struct S_checkpoints
+    //If input image at Point coordinate is white, then collision
 }
 
 
@@ -85,16 +87,27 @@ int main() {
 	int key;
 	cout << "Hello\n";
 	int time_base=getTickCount();
-	generateTentacles(20);
+	Tentacles tentacles;
+	vector<S_Tentacle> tens = tentacles.generateTentacles(20);
 	int time_cur=getTickCount();
 	double diff=(time_cur-time_base)/getTickFrequency();
 	cout << "generating took " << diff << " ms." << endl;
-	input = imread("../StereoVision.png");
-	
+	input = imread("Stereovision.png");
+
+	for(S_Tentacle ten : tens) {
+        //TODO: replace with vector iteration e.g. "blabla for blas.begin; bla != blas.end; bla++ ... if(bla != blas.end)
+		for (int i = 0; i < tentacleResolution; i++) {
+			if(i+1 < tentacleResolution) {
+				Point p1(ten.coordinates.at(i).x_coord,ten.coordinates.at(i).y_coord);
+				Point p2(ten.coordinates.at(i+1).x_coord, ten.coordinates.at(i+1).y_coord);
+				line(input, p1, p2, Scalar(0, 255, 0, 255));
+			}
+		}
+	}
 	imshow("Input Image",input);
 	while (key!='q')
 	{
 		key=waitKey(30);
 	}
-	cout << key << endl;;
+	cout << key << endl;
 }

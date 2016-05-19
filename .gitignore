@@ -1,1 +1,5 @@
 iMX6/opencv/Stereovision/build_Xcode/
+iMX6/opencv/Stereovision/build/
+iMX6/opencv/Stereovision/test/
+*.idea
+iMX6/opencv/Tentacles/Stereovision.png
