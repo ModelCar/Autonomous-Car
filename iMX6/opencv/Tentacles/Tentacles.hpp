@@ -12,7 +12,7 @@ class Tentacles {
 
 public:
     std::vector<S_Tentacle> generateTentacles(double speed);
-    void checkTentacles(cv::Mat obstacles, cv::Point target);
+    bool checkTentacles(cv::Mat obstacles, cv::Point target);
 
 private:
 
