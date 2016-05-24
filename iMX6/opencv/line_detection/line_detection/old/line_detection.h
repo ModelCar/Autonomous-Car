@@ -21,37 +21,26 @@ using namespace cv;
 class OpencvLineDetection {
 public:
     bool searchLine(Mat imagen, u_int64_t cycle);
-	//bool notALine(vector<Point> contour);
     bool matchContours(vector<Point> c1, vector<Point> c2);
     Point2d convertPoint(Mat homography, Point2d p);
     Mat readHomography(string path);
     void showBirdView(Mat srcImage, Mat H, double Z, Size dstImageSize);
     vector<vector<Point> > joinContours(vector<vector<Point> > contours);
     vector<Point> isJoinable(vector<Point> c1, vector<Point> c2);
-	Mat blurImg;
-    Mat detected_edges;
-    Mat roiImg;
-    Mat cannyImg;
-	Mat drawing;
-    Mat resultImg;
+    Mat edge, cedge;
     Mat video;
-    static const int edgeThresh = 70;
+    int edgeThresh = 40;
     // Image diameter
     int imgWidth;
     int imgHeight;
     // width and height of the ROI
-    int roiX;
-    int roiY;
+    int roiX = 320;
+    int roiY = 60;
     // Coordinates to start the ROI
-    int startX;
-    int startY;
-	// Coordinates of Camera
-	int camX;
-	int camY;
-	// Left and right Line
-	//vector< vector<Point> > Lines;
+    int startX = 0;
+    int startY = 180;
     // minimal contour Length
-    static const int thrMinContour = 50;
+    int thrMinContour = 5;
     // result as detected lanes
     struct Lane {
         vector<Point> line;
@@ -60,14 +49,14 @@ public:
     };
     vector<Lane> lanes;
     // min priority to show green line
-    static const int thrPriority = 15;
+    int thrPriority = 15;
     // frame count to buffer last lines
-    static const int bufferNewLines = 5;
+    int bufferNewLines = 5;
     // percentage for Douglas Peucker alg
-    static const int thrDP = 1;
+    int thrDP = 10;
     // Match contours parameters
-    static const int thrX = 20;
-    static const int thrY = 10;
+    int thrX = 20;
+    int thrY = 10;
 
 };
 
