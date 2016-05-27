@@ -68,17 +68,23 @@ int main(int argc, char* argv[])
 	    return -1;
     }
     resize(srcImg, resizedImg, Size(640, 480), 1, 1);
+	imwrite("resizedImg.jpg", resizedImg);
     cout << "Searching lines." << endl;
     lines.searchLine(resizedImg, cycle);
     cout << "Search for lines completed." << endl;
+	imwrite("roiImg.jpg", lines.roiImg);
 	namedWindow(winname1, WINDOW_AUTOSIZE);
     imshow(winname1, lines.blurImg);
+	imwrite("blurImg.jpg", lines.blurImg);
     namedWindow(winname2, WINDOW_AUTOSIZE);
     imshow(winname2, lines.cannyImg);
+	imwrite("cannyImg.jpg", lines.cannyImg);
 	namedWindow(winname3, WINDOW_AUTOSIZE);
     imshow(winname3, lines.drawing);
+	imwrite("contoursImg.jpg", lines.drawing);
 	namedWindow(winname4, WINDOW_AUTOSIZE);
     imshow(winname4, lines.resultImg);
+	imwrite("resultImg.jpg", lines.resultImg);
     
     //~ //Test notALine
     //~ vector<Point2i> vPoints(4);
