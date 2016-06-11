@@ -10,6 +10,7 @@
 
 #include "depthsubstraction.hpp"
 #include "cameracalibrator.hpp"
+#include "../inc/Tentacles.hpp"
 
 std::string calibImagesPath = "../calibration";
 std::string INTRINSICS = "../calibration/intrinsics.yml";
@@ -47,8 +48,10 @@ private:
 	cv::Mat left_frame;
 	cv::Mat right_frame;
 	cv::Mat depth_map;
+	cv::Mat tentacle_map;
 	cv::Size image_size;
 
+	Tentacles tentacles;
 	CameraCalibrator camCalibrator;
 	DepthSubstraction depthSubstraction;
 };

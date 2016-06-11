@@ -93,7 +93,7 @@ bool Tentacles::checkTentacles(Mat obstacles, Point target) {
 
 
 int main() {
-	
+
 	Mat input;
 	int key;
 	cout << "Hello\n";
