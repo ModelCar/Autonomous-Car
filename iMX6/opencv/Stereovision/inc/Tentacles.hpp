@@ -20,7 +20,7 @@ static const int checkpointsPerTentacleStep = 9;
 class Tentacles {
 
 public:
-    std::vector<S_Tentacle> generateTentacles(double speed);
+    std::vector<S_Tentacle> generateTentacles(int image_width, int image_height, double speed);
     bool checkTentacles(cv::Mat obstacles, cv::Point target);
     cv::Mat renderTentacles(cv::Mat inputImg, std::vector<S_Tentacle> tentacles);
 
@@ -32,7 +32,5 @@ private:
     double maxSteeringAngle = 17.0;
     double maxSteeringChange = 30.0;
     double steeringAmplifier = 15.0;
-    int inputImageWidth = 320;
-    int inputImageHeight = 240;
 };
 

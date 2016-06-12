@@ -14,7 +14,7 @@ using namespace std;
 
 
 //TODO: generate tentacles depending on current steering
-vector<S_Tentacle> Tentacles::generateTentacles(double speed) {
+vector<S_Tentacle> Tentacles::generateTentacles(int image_width, int image_height, double speed) {
     vector<S_Tentacle> tentacles;
     speed=speed*10.0/tentacleResolution;
 
@@ -23,8 +23,8 @@ vector<S_Tentacle> Tentacles::generateTentacles(double speed) {
         cout << targetsteering << endl;
         double heading=0;
         double cursteering=0;
-        double x=inputImageWidth/2;
-        double y=inputImageHeight-1;
+        double x=image_width/2;
+        double y=image_height-1;
         S_Tentacle tentacle;
         S_checkpoint firstCoord;
         firstCoord.x_coord = x;

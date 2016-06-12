@@ -72,7 +72,7 @@ void StereoVision::run() {
 				//get top view
 				top_view = depthSubstraction.getTopView(depth_map);
 
-                vector<S_Tentacle> tens = tentacles.generateTentacles(20);
+                vector<S_Tentacle> tens = tentacles.generateTentacles(top_view.size().width,top_view.size().height,40);
                 tentacle_map = tentacles.renderTentacles(top_view,tens);
 				//show images
 				showImages();
