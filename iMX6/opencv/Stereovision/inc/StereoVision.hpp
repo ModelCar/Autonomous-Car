@@ -51,7 +51,7 @@ private:
     int leftcamera;
     int rightcamera;
     int methodNr;
-    int mode; /** 0 - normal, 1-calibration **/
+    int mode; /** 0 - normal, 1 - calibration, 2 - take new calibration images **/
 
     cv::Mat left_frame;
     cv::Mat right_frame;

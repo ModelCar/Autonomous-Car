@@ -91,6 +91,7 @@ Mat DepthSubstraction::getDepthMap(Mat left, Mat right, int newMethod) {
 	return depth_map;
 }
 
+//TODO: TopView should present depth with always the same scale. If an object is too far away, it should not be in the top view
 Mat DepthSubstraction::getTopView(Mat depth_map) {
 
 	//size of depth map pixels is 640*480

@@ -91,13 +91,13 @@ void StereoVision::run() {
                     visionDelegate->didReceiveStereoData();
                 }
 
-                //TODO: retrieve current steering and speed from car before generating tentacles
-                vector<S_Tentacle> tens = tentacles.generateTentacles(top_view.size().width,top_view.size().height,40, 0);
-                tentacles.checkTentacles(top_view,tens);
                 if(avoidanceDelegate != nullptr) {
+                    //TODO: retrieve current steering and speed from car before generating tentacles
+                    vector<S_Tentacle> tens = tentacles.generateTentacles(top_view.size().width,top_view.size().height,40, 0);
+                    tentacles.checkTentacles(top_view,tens);
+                    tentacle_map = tentacles.renderTentacles(top_view,tens);
                     avoidanceDelegate->didReceiveAvoidanceData(tens);
                 }
-                tentacle_map = tentacles.renderTentacles(top_view,tens);
                 //show images
                 showImages();
             }
