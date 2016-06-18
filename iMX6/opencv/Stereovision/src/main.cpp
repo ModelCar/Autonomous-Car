@@ -1,10 +1,13 @@
 #include "../inc/StereoVision.hpp"
+#include "../inc/DriveLogicMock.hpp"
 
 using namespace std;
 using namespace cv;
 
 
 int main(int argc, char *argv[]) {
+
+	DriveLogicMock * driveLogicMock = new DriveLogicMock();
 
 	StereoVision* stereoVision;
 
@@ -15,6 +18,9 @@ int main(int argc, char *argv[]) {
 	} else {
 		stereoVision = new StereoVision();
 	}
+
+    stereoVision->setCollisionAvoidanceDelegate(driveLogicMock);
+    stereoVision->setStereovisionDelegate(driveLogicMock);
 	stereoVision->run();
 
 	return 0;

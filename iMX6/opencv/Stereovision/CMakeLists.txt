@@ -20,7 +20,7 @@ find_package(Boost REQUIRED system thread timer chrono filesystem)
 link_directories(${Boost_LIBRARY_DIR})
 
 # Add sources
-FILE(GLOB SRCS  src/*.cpp src/methods/*.cpp inc/*.hpp inc/methods/*.hpp inc/interfaces/*.hpp)
+FILE(GLOB SRCS src/*.cpp src/methods/*.cpp inc/*.hpp inc/methods/*.hpp inc/Interfaces/*.hpp)
 
 # Build
 add_executable(sv ${SRCS})

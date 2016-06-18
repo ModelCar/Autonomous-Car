@@ -15,6 +15,8 @@
 #include "depthsubstraction.hpp"
 #include "cameracalibrator.hpp"
 #include "../inc/Tentacles.hpp"
+#include "../inc/Interfaces/ICollisionAvoidanceDelegate.hpp"
+#include "../inc/Interfaces/IStereovisionDelegate.hpp"
 
 
 class StereoVision {
@@ -27,6 +29,9 @@ public:
      * @param string - path to extrinsics camera calibration parameters
      */
     StereoVision(const int m = 0, const std::string in = INTRINSICS, const std::string ex = EXTRINSICS);
+
+    void setStereovisionDelegate(IStereovisionDelegate *delegate);
+    void setCollisionAvoidanceDelegate(ICollisionAvoidanceDelegate *delegate);
     /**
      * runs application
      */
@@ -57,6 +62,9 @@ private:
     Tentacles tentacles;
     CameraCalibrator camCalibrator;
     DepthSubstraction depthSubstraction;
+
+    IStereovisionDelegate *visionDelegate;
+    ICollisionAvoidanceDelegate *avoidanceDelegate;
 };
 
 

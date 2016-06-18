@@ -5,7 +5,7 @@
 #include "../inc/StereoVision.hpp"
 using namespace std;
 using namespace cv;
-//TODO: topview muss noch gescheit geklärt werden
+//TODO: topview muss noch sauber deklariert werden und nicht hier einfach so rumfliegen
 cv::Mat top_view( 480, 640, CV_8UC1,cv::Scalar(0));
 
 
@@ -13,9 +13,10 @@ string StereoVision::calibImagesPath = "../calibration";
 string StereoVision::INTRINSICS = "../calibration/intrinsics.yml";
 string StereoVision::EXTRINSICS = "../calibration/extrinsics.yml";
 
-StereoVision::StereoVision(const int m, const string in, const string ex) {
+StereoVision::StereoVision(const int m,
+                           const std::string in,
+                           const std::string ex) : mode(m) {
 
-    mode = m;
 
     //calibration of cameras if there is need
     if (mode == 1) {
@@ -51,6 +52,13 @@ StereoVision::StereoVision(const int m, const string in, const string ex) {
     cvMoveWindow("top_view",image_size.width,0);
 }
 
+void StereoVision::setCollisionAvoidanceDelegate(ICollisionAvoidanceDelegate *delegate) {
+    avoidanceDelegate = delegate;
+}
+
+void StereoVision::setStereovisionDelegate(IStereovisionDelegate *delegate) {
+    visionDelegate = delegate;
+}
 void StereoVision::run() {
 
     //Adjust index camera
@@ -79,8 +87,16 @@ void StereoVision::run() {
 
                 //get top view
                 top_view = depthSubstraction.getTopView(depth_map);
+                if(visionDelegate != nullptr) {
+                    visionDelegate->didReceiveStereoData();
+                }
 
-                vector<S_Tentacle> tens = tentacles.generateTentacles(top_view.size().width,top_view.size().height,40);
+                //TODO: retrieve current steering and speed from car before generating tentacles
+                vector<S_Tentacle> tens = tentacles.generateTentacles(top_view.size().width,top_view.size().height,40, 0);
+                tentacles.checkTentacles(top_view,tens);
+                if(avoidanceDelegate != nullptr) {
+                    avoidanceDelegate->didReceiveAvoidanceData(tens);
+                }
                 tentacle_map = tentacles.renderTentacles(top_view,tens);
                 //show images
                 showImages();
