@@ -8,12 +8,11 @@
 
 #include <thread>
 #include <opencv2/opencv.hpp>
-using namespace cv;
-using namespace std;
 #include "../inc/Tentacles.hpp"
 
+using namespace cv;
+using namespace std;
 
-//TODO: generate tentacles depending on current steering
 vector<S_Tentacle> Tentacles::generateTentacles(int image_width, int image_height, double speed, double currentSteering) {
     vector<S_Tentacle> tentacles;
     speed=speed*10.0/tentacleResolution;
@@ -29,8 +28,8 @@ vector<S_Tentacle> Tentacles::generateTentacles(int image_width, int image_heigh
         tentacle.steeringAngle = targetsteering;
         tentacle.isSafePath = true;
         S_checkpoint firstCoord;
-        firstCoord.x_coord = x;
-        firstCoord.y_coord = y;
+        firstCoord.x_coord = (int)x;
+        firstCoord.y_coord = (int)y;
         tentacle.coordinates.push_back(firstCoord);
 
         for (int t=1; t<tentacleResolution;t++){
@@ -49,8 +48,8 @@ vector<S_Tentacle> Tentacles::generateTentacles(int image_width, int image_heigh
             x=x+speed*sin(heading_rad);
 
             S_checkpoint coordinate;
-            coordinate.x_coord = x;
-            coordinate.y_coord = y;
+            coordinate.x_coord = (int)x;
+            coordinate.y_coord = (int)y;
 
             int checkhalf=checkpointsPerTentacleStep/2;
             double swp=part_x;
@@ -58,7 +57,7 @@ vector<S_Tentacle> Tentacles::generateTentacles(int image_width, int image_heigh
             part_y=swp;
             for (int checkpoint=0; checkpoint<checkpointsPerTentacleStep; checkpoint++){
                 double factor=(checkpoint-checkhalf)/checkhalf*vehicleWidth/2;
-                Point p(x-part_x*factor, y-part_y*factor);
+                Point p((int)(x-part_x*factor), (int)(y-part_y*factor));
                 coordinate.checkpoints.push_back(p);
             }
             tentacle.coordinates.push_back(coordinate);
@@ -117,11 +116,6 @@ bool Tentacles::isCollisionPoint(Mat obstacles, Point target) {
     if(obstacles.size().width < target.x || obstacles.size().height < target.y) {
         return false;
     }
-    uchar value = obstacles.at<uchar>(target);
+    return obstacles.at<uchar>(target) == 255;
 
-    if(value != 255) {
-        return false;
-    } else {
-        return true;
-    }
 }
