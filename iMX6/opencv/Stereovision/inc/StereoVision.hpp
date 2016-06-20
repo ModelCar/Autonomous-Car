@@ -18,7 +18,6 @@
 #include "../inc/Interfaces/ICollisionAvoidanceDelegate.hpp"
 #include "../inc/Interfaces/IStereovisionDelegate.hpp"
 
-
 class StereoVision {
 
 public:

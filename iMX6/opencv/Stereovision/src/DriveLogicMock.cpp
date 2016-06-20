@@ -19,9 +19,15 @@ void DriveLogicMock::didReceiveStereoData() {
 
 void DriveLogicMock::didReceiveAvoidanceData(vector<S_Tentacle> tentacles) {
     cout << "Did receive avoidance Data!" << endl;
+
+    double preferredDrivingAngle = 0.0;
+
     for(auto it = tentacles.begin(); it != tentacles.end(); it++) {
         if(it->isSafePath) {
             cout << "Safe path at: " << it->steeringAngle << endl;
+            if(it->steeringAngle == preferredDrivingAngle) {
+                //TODO: choose preferred angle for driving
+            }
         }
     }
 }

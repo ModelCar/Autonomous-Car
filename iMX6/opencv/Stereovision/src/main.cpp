@@ -1,9 +1,10 @@
 #include "../inc/StereoVision.hpp"
 #include "../inc/DriveLogicMock.hpp"
+#include "pthread.h"
+#include "thread"
 
 using namespace std;
 using namespace cv;
-
 
 int main(int argc, char *argv[]) {
 
@@ -21,7 +22,8 @@ int main(int argc, char *argv[]) {
 
     stereoVision->setCollisionAvoidanceDelegate(driveLogicMock);
     stereoVision->setStereovisionDelegate(driveLogicMock);
-	stereoVision->run();
+
+    stereoVision->run();
 
 	return 0;
 }
