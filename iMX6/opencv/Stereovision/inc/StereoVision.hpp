@@ -17,6 +17,7 @@
 #include "../inc/Tentacles.hpp"
 #include "../inc/Interfaces/ICollisionAvoidanceDelegate.hpp"
 #include "../inc/Interfaces/IStereovisionDelegate.hpp"
+#include "../inc/com.hpp"
 
 class StereoVision {
 
@@ -29,8 +30,9 @@ public:
      */
     StereoVision(const int m = 0, const std::string in = INTRINSICS, const std::string ex = EXTRINSICS);
 
-    void setStereovisionDelegate(IStereovisionDelegate *delegate);
-    void setCollisionAvoidanceDelegate(ICollisionAvoidanceDelegate *delegate);
+    void setCurrentSpeed(double speed) {currentSpeed = speed;}
+    void setCurrentSteering(double steering) {currentSteering = steering;}
+
     /**
      * runs application
      */
@@ -45,7 +47,14 @@ private:
     static std::string calibImagesPath;
     static std::string INTRINSICS;
     static std::string EXTRINSICS;
+
     void showImages();
+    int initializeSerialDevice();
+
+    double currentSpeed;
+    double currentSteering;
+
+    int serialDevice;
 
     int leftcamera;
     int rightcamera;
@@ -61,9 +70,6 @@ private:
     Tentacles tentacles;
     CameraCalibrator camCalibrator;
     DepthSubstraction depthSubstraction;
-
-    IStereovisionDelegate *visionDelegate;
-    ICollisionAvoidanceDelegate *avoidanceDelegate;
 };
 
 

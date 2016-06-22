@@ -20,8 +20,16 @@ int main(int argc, char *argv[]) {
 		stereoVision = new StereoVision();
 	}
 
-    stereoVision->setCollisionAvoidanceDelegate(driveLogicMock);
-    stereoVision->setStereovisionDelegate(driveLogicMock);
+	string speedStr;
+	double speed;
+	cout << "Type in desired start speed: ";
+	getline (cin, speedStr);
+	speed = stod(speedStr);
+	stereoVision->setCurrentSpeed(speed);
+
+	//TODO: Maybe read current steering from car
+	cout << "Assuming initial steering angle: 0.0" << endl;
+	stereoVision->setCurrentSteering(0.0);
 
     stereoVision->run();
 

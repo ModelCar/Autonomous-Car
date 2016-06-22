@@ -25,6 +25,7 @@ public:
     std::vector<S_Tentacle> generateTentacles(int image_width, int image_height, double speed, double currentSteering);
     void checkTentacles(cv::Mat obstacles, std::vector<S_Tentacle> &tentacles);
     cv::Mat renderTentacles(cv::Mat inputImg, std::vector<S_Tentacle> tentacles);
+    bool findNewSteeringAngle(double &steeringAngle, std::vector<S_Tentacle> tentacles, bool driveRight);
 
 private:
 

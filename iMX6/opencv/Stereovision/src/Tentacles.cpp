@@ -19,7 +19,6 @@ vector<S_Tentacle> Tentacles::generateTentacles(int image_width, int image_heigh
 
     for (int steering=-tentaclesPerSide; steering<=tentaclesPerSide;steering++){
         double targetsteering=steering*maxSteeringAngle/tentaclesPerSide;
-        cout << targetsteering << endl;
         double heading=0;
         double cursteering = currentSteering;
         double x=image_width/2;
@@ -118,4 +117,58 @@ bool Tentacles::isCollisionPoint(Mat obstacles, Point target) {
     }
     return obstacles.at<uchar>(target) == 255;
 
+}
+
+bool Tentacles::findNewSteeringAngle(double &steeringAngle, std::vector<S_Tentacle> tentacles, bool driveRight) {
+
+    for(auto it = tentacles.begin(); it != tentacles.end(); it++) {
+        if(it->steeringAngle == steeringAngle) {
+            if(it->steeringAngle == 0.0 && it->isSafePath) {
+                return true;
+            }
+
+            int currentIndex = it - tentacles.begin();
+            int stepCount = 1;
+            for(int i = 0; i < tentacles.size(); i++) {
+
+                if(driveRight) {
+                    if(currentIndex + stepCount < tentacles.size()) {
+                        S_Tentacle rightTentacle = tentacles.at(currentIndex + stepCount);
+                        if(rightTentacle.isSafePath) {
+                            steeringAngle = rightTentacle.steeringAngle;
+                            return true;
+                        }
+                    }
+                    else if(currentIndex - stepCount > 0) {
+                        S_Tentacle rightTentacle = tentacles.at(currentIndex - stepCount);
+                        if(rightTentacle.isSafePath) {
+                            steeringAngle = rightTentacle.steeringAngle;
+                            return true;
+                        }
+                    }
+                } else {
+                    if(currentIndex - stepCount > 0) {
+                        S_Tentacle leftTentacle = tentacles.at(currentIndex-stepCount);
+                        if(leftTentacle.isSafePath) {
+                            steeringAngle = leftTentacle.steeringAngle;
+                            return true;
+                        }
+                    }
+                    else if(currentIndex + stepCount < tentacles.size()) {
+                        S_Tentacle rightTentacle = tentacles.at(currentIndex + stepCount);
+                        if(rightTentacle.isSafePath) {
+                            steeringAngle = rightTentacle.steeringAngle;
+                            return true;
+                        }
+                    }
+                }
+
+
+                stepCount++;
+            }
+        }
+    }
+
+    cout << "No safe path found!" << endl;
+    return false;
 }
