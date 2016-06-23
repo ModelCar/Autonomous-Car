@@ -119,7 +119,7 @@ bool Tentacles::isCollisionPoint(Mat obstacles, Point target) {
 
 }
 
-bool Tentacles::findNewSteeringAngle(double &steeringAngle, std::vector<S_Tentacle> tentacles, bool driveRight) {
+bool Tentacles::findNewSteeringAngle(double &steeringAngle, std::vector<S_Tentacle> tentacles) {
 
     //TODO: maybe better when i just check if angle 0.0 is safe at the moment, and then just use 0.0 as angle
     for(auto it = tentacles.begin(); it != tentacles.end(); it++) {
@@ -132,22 +132,6 @@ bool Tentacles::findNewSteeringAngle(double &steeringAngle, std::vector<S_Tentac
             int stepCount = 1;
             for(int i = 0; i < tentacles.size(); i++) {
 
-                if(driveRight) {
-                    if(currentIndex + stepCount < tentacles.size()) {
-                        S_Tentacle rightTentacle = tentacles.at(currentIndex + stepCount);
-                        if(rightTentacle.isSafePath) {
-                            steeringAngle = rightTentacle.steeringAngle;
-                            return true;
-                        }
-                    }
-                    else if(currentIndex - stepCount > 0) {
-                        S_Tentacle rightTentacle = tentacles.at(currentIndex - stepCount);
-                        if(rightTentacle.isSafePath) {
-                            steeringAngle = rightTentacle.steeringAngle;
-                            return true;
-                        }
-                    }
-                } else {
                     if(currentIndex - stepCount > 0) {
                         S_Tentacle leftTentacle = tentacles.at(currentIndex-stepCount);
                         if(leftTentacle.isSafePath) {
@@ -162,9 +146,6 @@ bool Tentacles::findNewSteeringAngle(double &steeringAngle, std::vector<S_Tentac
                             return true;
                         }
                     }
-                }
-
-
                 stepCount++;
             }
         }

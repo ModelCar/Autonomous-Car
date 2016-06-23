@@ -28,7 +28,7 @@ public:
      * @param string - path to intrinsics camera calibration parameters
      * @param string - path to extrinsics camera calibration parameters
      */
-    StereoVision(const int m = 0, const std::string in = INTRINSICS, const std::string ex = EXTRINSICS);
+    StereoVision(const bool showDebugWindows = false, const int m = 0, const std::string in = INTRINSICS, const std::string ex = EXTRINSICS);
 
     void setCurrentSpeed(double speed) {currentSpeed = speed;}
     void setCurrentSteering(double steering) {currentSteering = steering;}
@@ -40,7 +40,7 @@ public:
     /**
      * Class destructor
      */
-    ~StereoVision(){}
+    ~StereoVision();
 
 private:
 
@@ -61,6 +61,8 @@ private:
     int methodNr;
     int mode; /** 0 - normal, 1 - calibration, 2 - take new calibration images **/
 
+    bool show;
+
     cv::Mat left_frame;
     cv::Mat right_frame;
     cv::Mat depth_map;
@@ -68,8 +70,8 @@ private:
     cv::Size image_size;
 
     Tentacles tentacles;
-    CameraCalibrator camCalibrator;
-    DepthSubstraction depthSubstraction;
+    CameraCalibrator *camCalibrator;
+    DepthSubstraction *depthSubstraction;
 };
 
 

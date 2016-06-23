@@ -24,7 +24,7 @@ public:
 	/**
 	 * Class constructor
 	 */
-    CameraCalibrator(){}
+    CameraCalibrator(const bool showDebugWindows = false) : show(showDebugWindows) {}
 	/**
 	 * Gets calibration images from specified directory and executes calibration
 	 * @param string - path to calibration images directory
@@ -53,6 +53,7 @@ public:
 	 */
     virtual ~CameraCalibrator(){}
 private:
+	bool show;
 	cv::Size boardSize;
 	std::string intrinsics;
 	std::string extrinsics;

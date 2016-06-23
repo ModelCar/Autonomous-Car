@@ -11,7 +11,7 @@ cv::Mat top(480, 640, CV_8UC1, cv::Scalar(0) );
 
 DepthSubstraction::DepthSubstraction(int m, bool t) {
 	undist = false;
-	test = t;
+	showDebugWindows = t;
 	methodNr = -1;
 	setMethod(m);
 	methodNr = m;
@@ -25,6 +25,9 @@ DepthSubstraction::DepthSubstraction(int m, bool t) {
     sum = 0;
 }
 
+DepthSubstraction::~DepthSubstraction() {
+    delete method;
+}
 void DepthSubstraction::extractCalibrationParams(string in, string ex) {
 	//Load calibration files
 	//reading intrinsic parameters
@@ -135,17 +138,17 @@ void DepthSubstraction::setMethod(int newMethod) {
 	}
 
 	if (method != NULL) {
-		delete method;
+		method = nullptr;
 	}
 
 	//choose the method
 	methodNr = newMethod;
 	switch (methodNr) {
 		case 0:
-			method = new BMMethod(test);
+			method = new BMMethod(showDebugWindows);
 			break;
 		case 1:
-			method = new SGBMMethod(test);
+			method = new SGBMMethod(showDebugWindows);
 			break;
 		}
 	if (undist && methodNr == 0) {

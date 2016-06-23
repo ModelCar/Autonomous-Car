@@ -54,7 +54,7 @@ public:
 	/**
 	 * Class destructor
 	 */
-    virtual ~DepthSubstraction(){}
+	~DepthSubstraction();
 
 	/** number of current disparity method, controlled by trackbar in StereoVision class **/
 	int methodNr;
@@ -87,7 +87,7 @@ private:
 	void setMethod(int);
 
 	bool undist;
-	bool test;
+	bool showDebugWindows;
 
 	MatchingMethod* method;
 };

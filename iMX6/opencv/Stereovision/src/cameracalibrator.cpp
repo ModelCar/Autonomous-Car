@@ -37,7 +37,6 @@ void CameraCalibrator::StereoCalib(const std::vector<string> &imagelist) {
         return;
     }
 
-    bool displayCorners = true;
     const int maxScale = 2;
     const float squareSize = 2.5f;  //actual chessboard square size in cm
 
@@ -89,7 +88,7 @@ void CameraCalibrator::StereoCalib(const std::vector<string> &imagelist) {
                     break;
                 }
             }
-            if( displayCorners )
+            if( show )
             {
                 cout << filename << endl;
                 Mat cimg, cimg1;
@@ -243,8 +242,10 @@ void CameraCalibrator::createNewCalibrationImages(string filepath, int camIndex1
         resize(leftFrame, leftResized, image_size);
         resize(rightFrame, rightResized, image_size);
 
-        imshow("left", leftResized);
-        imshow("right", rightResized);
+        if(show) {
+            imshow("left", leftResized);
+            imshow("right", rightResized);
+        }
 
         if(waitKey(30) >= 0) {
             cout << "taking photo!" << endl;
