@@ -33,7 +33,7 @@ private:
 
     int tentaclesPerSide = 20;
     double vehicleWidth = 10.0;
-    double maxSteeringAngle = 17.0;
+    double maxSteeringAngle = 14.0;
     double maxSteeringChange = 30.0;
     double steeringAmplifier = 15.0;
 };

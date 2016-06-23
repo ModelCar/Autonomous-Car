@@ -121,6 +121,7 @@ bool Tentacles::isCollisionPoint(Mat obstacles, Point target) {
 
 bool Tentacles::findNewSteeringAngle(double &steeringAngle, std::vector<S_Tentacle> tentacles, bool driveRight) {
 
+    //TODO: maybe better when i just check if angle 0.0 is safe at the moment, and then just use 0.0 as angle
     for(auto it = tentacles.begin(); it != tentacles.end(); it++) {
         if(it->steeringAngle == steeringAngle) {
             if(it->steeringAngle == 0.0 && it->isSafePath) {

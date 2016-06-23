@@ -44,13 +44,13 @@ StereoVision::StereoVision(const int m,
     methodNr = 0;
 
     //set windows to show
-    cvNamedWindow("disparity",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
-    cvMoveWindow("disparity",0,0);
-    cvNamedWindow("left",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
-    cvMoveWindow("left",0,image_size.height);
-    cvNamedWindow("right",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
-    cvMoveWindow("right",image_size.width,image_size.height);
-    createTrackbar("method", "disparity", &methodNr, depthSubstraction.methodCount-1);
+    //cvNamedWindow("disparity",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
+    //cvMoveWindow("disparity",0,0);
+    //cvNamedWindow("left",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
+    //cvMoveWindow("left",0,image_size.height);
+    //cvNamedWindow("right",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
+    //cvMoveWindow("right",image_size.width,image_size.height);
+    //createTrackbar("method", "disparity", &methodNr, depthSubstraction.methodCount-1);
     //cvNamedWindow("top_view",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
     //cvMoveWindow("top_view",image_size.width,0);
 }
@@ -89,33 +89,37 @@ void StereoVision::run() {
                 //TODO: retrieve current steering and speed from car before generating tentacles
 
                 //TODO: decide if it is necessary to generate the tentacles with different initial angles
-                vector<S_Tentacle> tens = tentacles.generateTentacles(top_view.size().width,top_view.size().height,40, 0);
+                vector<S_Tentacle> tens = tentacles.generateTentacles(top_view.size().width,top_view.size().height,30, 0);
                 tentacles.checkTentacles(top_view,tens);
-
-                if(!tentacles.findNewSteeringAngle(currentSteering,tens, driveRight)) {
-                    //TODO: no new steering angle found! Crash imminent! Do Emergency break
-                } else {
-                    cout << "Found new steering angle!" << currentSteering << endl;
-                    //TODO: maybe it is enough to just see if the 0 angle is a safe path, instead of deciding to drive left or right
-                    driveRight = currentSteering < 0;
-                }
-
-                tentacle_map = tentacles.renderTentacles(top_view,tens);
 
                 digitalWrite(LED, LOW); // Off
 
-                if(serialDevice != -1) {
-                    sendsteeringspeed(serialDevice, currentSpeed, currentSteering);
+                if(!tentacles.findNewSteeringAngle(currentSteering, tens, driveRight)) {
+                    //TODO: no new steering angle found! Crash imminent! Do Emergency break
+                    if(serialDevice != -1) {
+                        sendsteeringspeed(serialDevice, 0, 0);
+                    }
+
+                } else {
+                    cout << "Found new steering angle!" << currentSteering << endl;
+                    //TODO: maybe it is enough to just see if the 0 angle is a safe path, instead of deciding to drive left or right
+                    //driveRight = currentSteering < 0;
+                    if(serialDevice != -1) {
+                        sendsteeringspeed(serialDevice, currentSpeed, currentSteering);
+                    }
+                    currentSteering = 0.0;
                 }
+
+                //tentacle_map = tentacles.renderTentacles(top_view,tens);
+
                 //currentSteering = 0;
                 //show images
-                showImages();
+                //showImages();
             }
         }
 
-        if(waitKey(30) >= 0) break; // ID for the key to exit the program
+        //if(waitKey(30) >= 0) break; // ID for the key to exit the program
     }
-
 }
 
 void StereoVision::showImages(){
