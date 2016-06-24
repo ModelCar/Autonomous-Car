@@ -51,6 +51,7 @@ StereoVision::StereoVision(const bool showDebugWindows,
 
     if(show) {
         //set windows to show
+
         cvNamedWindow("disparity",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
         cvMoveWindow("disparity",0,0);
         cvNamedWindow("left",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
@@ -153,7 +154,6 @@ void StereoVision::showImages(){
     imshow("disparity", depth_map);
     imshow("top_view",top_view);
     imshow("tentacles",tentacle_map);
-
     waitKey(30);
 }
 

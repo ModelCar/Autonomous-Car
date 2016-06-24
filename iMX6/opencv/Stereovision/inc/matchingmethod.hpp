@@ -15,14 +15,14 @@ public:
 	 */
 	MatchingMethod(bool show = true):
 		preFilterCap(25),
-        blockSize(42),
+        blockSize(143),
 		minDisparity(0),
 		numberOfDisparities(50),
 		textureThreshold(10),
 		uniquenessRatio(0),
 		speckleWindowSize(37),
-		speckleRange(32),
-		disp12MaxDiff(1),
+		speckleRange(36),
+		disp12MaxDiff(39),
         showParamWin(show){}
 	/**
 	 * Obtains depth map from camera stream images using algorithm specified by inheriting method

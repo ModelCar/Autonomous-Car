@@ -68,11 +68,17 @@ vector<S_Tentacle> Tentacles::generateTentacles(int image_width, int image_heigh
 
 void Tentacles::checkTentacles(cv::Mat obstacles, std::vector<S_Tentacle> &tentacles) {
 
+    leftUnsafeTentacles = 0;
+    rightUnsafeTentacles = 0;
     for (auto it = tentacles.begin(); it != tentacles.end(); it++) {
         for (auto at = it->coordinates.begin(); at != it->coordinates.end(); at++) {
             for(Point checkpoint : at->checkpoints) {
                 if(isCollisionPoint(obstacles,checkpoint)) {
-
+                    if(it - tentacles.begin() <= tentacles.size()/2) {
+                        leftUnsafeTentacles++;
+                    } else {
+                        rightUnsafeTentacles++;
+                    }
                     it->isSafePath = false;
                     break;
                 }
@@ -128,25 +134,25 @@ bool Tentacles::findNewSteeringAngle(double &steeringAngle, std::vector<S_Tentac
                 return true;
             }
 
-            int currentIndex = it - tentacles.begin();
-            int stepCount = 1;
-            for(int i = 0; i < tentacles.size(); i++) {
+            if(leftUnsafeTentacles > rightUnsafeTentacles) {
+                //Choose right side first
 
-                    if(currentIndex - stepCount > 0) {
-                        S_Tentacle leftTentacle = tentacles.at(currentIndex-stepCount);
-                        if(leftTentacle.isSafePath) {
-                            steeringAngle = leftTentacle.steeringAngle;
-                            return true;
-                        }
+                for(int i = (int)tentacles.size()-1; i >= 0; i--) {
+                    S_Tentacle tentacle = tentacles.at(i);
+                    if(tentacle.isSafePath) {
+                        steeringAngle = tentacle.steeringAngle;
+                        return true;
                     }
-                    else if(currentIndex + stepCount < tentacles.size()) {
-                        S_Tentacle rightTentacle = tentacles.at(currentIndex + stepCount);
-                        if(rightTentacle.isSafePath) {
-                            steeringAngle = rightTentacle.steeringAngle;
-                            return true;
-                        }
+                }
+            } else {
+                //Chose left side first
+                for(int i = 0; i < tentacles.size(); i++) {
+                    S_Tentacle tentacle = tentacles.at(i);
+                    if(tentacle.isSafePath) {
+                        steeringAngle = tentacle.steeringAngle;
+                        return true;
                     }
-                stepCount++;
+                }
             }
         }
     }

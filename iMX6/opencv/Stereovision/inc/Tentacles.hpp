@@ -36,5 +36,8 @@ private:
     double maxSteeringAngle = 14.0;
     double maxSteeringChange = 30.0;
     double steeringAmplifier = 15.0;
+
+    int leftUnsafeTentacles;
+    int rightUnsafeTentacles;
 };
 
