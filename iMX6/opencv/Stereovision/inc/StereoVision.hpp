@@ -49,7 +49,9 @@ private:
     static std::string EXTRINSICS;
 
     void showImages();
+    void writeImages();
     int initializeSerialDevice();
+    double measureAndPrintTime(clock_t begin, clock_t end);
 
     double currentSpeed;
     double currentSteering;
@@ -62,6 +64,7 @@ private:
     int mode; /** 0 - normal, 1 - calibration, 2 - take new calibration images **/
 
     bool show;
+    bool saveImages;
 
     cv::Mat left_frame;
     cv::Mat right_frame;
@@ -72,6 +75,8 @@ private:
     Tentacles tentacles;
     CameraCalibrator *camCalibrator;
     DepthSubstraction *depthSubstraction;
+
+    int imagewritecount;
 };
 
 

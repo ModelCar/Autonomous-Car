@@ -233,6 +233,11 @@ void CameraCalibrator::createNewCalibrationImages(string filepath, int camIndex1
         exit(1);
     }
 
+    //capLeft.set(CV_CAP_PROP_FRAME_WIDTH,320);
+    //capLeft.set(CV_CAP_PROP_FRAME_HEIGHT,240);
+    //capRight.set(CV_CAP_PROP_FRAME_WIDTH,320);
+    //capRight.set(CV_CAP_PROP_FRAME_HEIGHT,240);
+
     for(;;) {
         if (!capLeft.read(leftFrame) || !capRight.read(rightFrame)) {
             cout << "could not read frames!!" << endl;

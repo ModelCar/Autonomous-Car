@@ -13,6 +13,10 @@ string StereoVision::calibImagesPath = "../calibration";
 string StereoVision::INTRINSICS = "../calibration/intrinsics.yml";
 string StereoVision::EXTRINSICS = "../calibration/extrinsics.yml";
 
+void* backgroundThread() {
+
+}
+
 StereoVision::StereoVision(const bool showDebugWindows,
                            const int m,
                            const std::string in,
@@ -20,6 +24,8 @@ StereoVision::StereoVision(const bool showDebugWindows,
 
     currentSpeed = 0.0;
     currentSteering = 0.0;
+    imagewritecount = 0;
+    saveImages = false;
 
     camCalibrator = new CameraCalibrator(show);
     depthSubstraction = new DepthSubstraction(0, show);
@@ -51,7 +57,6 @@ StereoVision::StereoVision(const bool showDebugWindows,
 
     if(show) {
         //set windows to show
-
         cvNamedWindow("disparity",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
         cvMoveWindow("disparity",0,0);
         cvNamedWindow("left",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
@@ -74,13 +79,23 @@ void StereoVision::run() {
     //Adjust index camera
     leftcamera = 1;
     rightcamera = 2;
+
+    cout << "Measuring Tentacle generation: " << endl;
+    clock_t begin = clock();
     vector<S_Tentacle> initialTentacles = tentacles.generateTentacles(top_view.size().width,top_view.size().height,30, 0);
+    clock_t end = clock();
+    measureAndPrintTime(begin, end);
 
     VideoCapture capLeft = VideoCapture(leftcamera);
     VideoCapture capRight = VideoCapture(rightcamera);
 
     if(!capLeft.open(leftcamera) || !capRight.open(rightcamera))  // check if we succeeded
         exit(1);
+
+    //capLeft.set(CV_CAP_PROP_FRAME_WIDTH,320);
+    //capLeft.set(CV_CAP_PROP_FRAME_HEIGHT,240);
+    //capRight.set(CV_CAP_PROP_FRAME_WIDTH,320);
+    //capRight.set(CV_CAP_PROP_FRAME_HEIGHT,240);
 
     for(;;)
     {
@@ -95,20 +110,34 @@ void StereoVision::run() {
 
             if (capRight.retrieve(right_frame,1)) {
                 //get depth map
-                digitalWrite(LED, HIGH); //On
+                //digitalWrite(LED, HIGH); //On
+
+                cout << "Measuring depth map creation: " << endl;
+                begin = clock();
                 depth_map = depthSubstraction->getDepthMap(left_frame, right_frame, methodNr);
-
+                end = clock();
+                measureAndPrintTime(begin,end);
                 //get top view
-                top_view = depthSubstraction->getTopView(depth_map);
 
+                cout << "Measuring top view generation: " << endl;
+                begin = clock();
+                top_view = depthSubstraction->getTopView(depth_map);
+                end = clock();
+                measureAndPrintTime(begin,end);
                 //TODO: retrieve current steering and speed from car before generating tentacles
 
                 //TODO: decide if it is necessary to generate the tentacles with different initial angles
-                //vector<S_Tentacle> tens = tentacles.generateTentacles(top_view.size().width,top_view.size().height,30, 0);
+
+                cout << "Measuring tentacle checking: " << endl;
+                begin = clock();
                 tentacles.checkTentacles(top_view, tens);
+                end = clock();
+                measureAndPrintTime(begin,end);
 
-                digitalWrite(LED, LOW); // Off
+                //digitalWrite(LED, LOW); // Off
 
+                cout << "Measuring steering angle finding: " << endl;
+                begin = clock();
                 if (!tentacles.findNewSteeringAngle(currentSteering, tens)) {
                     //TODO: no new steering angle found! Crash imminent! Do Emergency break
                     if (serialDevice != -1) {
@@ -125,11 +154,17 @@ void StereoVision::run() {
                     }
                     currentSteering = 0.0;
                 }
+                end = clock();
+                measureAndPrintTime(begin,end);
 
                 //show images
                 if (show) {
                     tentacle_map = tentacles.renderTentacles(top_view,tens);
                     showImages();
+                }
+
+                if(saveImages) {
+                    writeImages();
                 }
             }
         }
@@ -157,10 +192,24 @@ void StereoVision::showImages(){
     waitKey(30);
 }
 
+void StereoVision::writeImages() {
+
+    string imageID = to_string(imagewritecount);
+    imwrite("../images/left_rectified"+ imageID + ".bmp", left_frame);
+    imwrite("../images/depth_map" + imageID + ".bmp", depth_map);
+    imwrite("../images/tentacles" + imageID + ".bmp", tentacle_map);
+    imagewritecount++;
+}
+
 int StereoVision::initializeSerialDevice() {
     exec(cmd1);
     exec(cmd2);
     wiringPiSetup();
     pinMode(LED, OUTPUT);
     return SerialInit(19200);
+}
+
+double StereoVision::measureAndPrintTime(clock_t begin, clock_t end) {
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    cout << "Time: " << elapsed_secs << " elapsed" << endl;
 }
